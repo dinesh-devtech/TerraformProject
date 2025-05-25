@@ -1,0 +1,29 @@
+Steps
+1- ISTALL CLOUDWATCH ON EC2
+  ssh -i key.pem ec2-user@ec2-ip
+  sudo yum install amazone-cloudwatch-agent -y
+
+2- CONFIGURE CLOUDWATCH AGENT TO MONITOR CPU, MEMORY, DISK USGE
+   sudo/opt/aws/amazone-cloudwatch-agent/bin/amazone-cloudwatch-agent-config-wizard (It will prompt for cpu,memory,disk metrics and generate a config file: /opt/aws/amazone-cloudwatch-agent/bin/config.json)
+
+3- START THE AGENT
+   sudo /opt/aws/amazone-cloudwatch-agent/bin/amazone-cloudwatch-agent-ctl\ 
+   -a fetch-config -m ec2 -c file:/opt/aws/amazone-cloudwatch-agent/bin/config.json -s
+
+4- CREATE CLOUDWATCH ALARM FOR CPU% > 80%
+  - Go to Cloudwatch > Alarm > Create Alarm
+  - Select metric
+       Ec2 > per-Instance Metrics
+       Choose Instance > Metric: CPU Utilization
+  - Set Condition
+       Threshold: Greater than 80
+       Period: 5 minutes
+  - Create Notification
+       Choose/Create SNS topic(HighCpuAlert)
+       Add your email address 
+
+  - Confirm email subcription
+      
+   
+
+   
